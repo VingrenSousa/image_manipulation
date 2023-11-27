@@ -5,7 +5,7 @@ export const theme={
         TextClaro:'#a79191ee',
 
 
-        backBasicClara:'#d3d3d373',
+        backBasicClara:'#d3d3d3b2',
 
         tabela_Colorida:{
             roxoCLaro: '#D9486E',
@@ -41,6 +41,7 @@ export const theme={
         
     },
     FONTES:{
+        label:'Inter_600SemiBold',
         Text:'Poppins_400Regular',
         textSimples:'Poppins_300Light',
         Title:'Poppins_500Medium',

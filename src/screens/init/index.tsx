@@ -8,10 +8,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {PropsStack} from '../../routes/Stack/models'
 
 import React, { useEffect, useState } from 'react'
+import Splash from "../../componetes/splash";
 
 
 
-export default function  init(){
+export default function  Init(){
     const navigation = useNavigation<PropsStack>();
     const [hasPermission, setHasPermission] = useState(false);
    
@@ -19,8 +20,8 @@ export default function  init(){
         // Marcar que a tela de introdução já foi exibida
         await AsyncStorage.setItem('introDisplayed', 'true');
     
-        // Navegar para a próxima tela do seu aplicativo
-        navigation.navigate('Home'); // Substitua 'Home' pelo nome da sua tela principal
+        // Navegar para a próxima tela do aplicativo
+        navigation.navigate('Home'); 
       };
 
     useEffect(() => {
@@ -39,7 +40,9 @@ export default function  init(){
     );
     
     
-
+    if(hasPermission){
+    return <Splash/>
+    }else{
     return(
         <ImageBackground
         style={style.main}
@@ -64,4 +67,5 @@ export default function  init(){
           
         </ImageBackground>
     )
+}
 }
