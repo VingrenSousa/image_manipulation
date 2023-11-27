@@ -3,22 +3,43 @@ import {style} from './style'
 import {StatusBar}from"expo-status-bar"
 import { BlurView } from 'expo-blur';
 import { AntDesign } from '@expo/vector-icons'; 
-import { useNavigation,NavigationProp} from '@react-navigation/native';
-import {NativeStackHeaderProps} from '@react-navigation/native-stack'
-import Home from "../home";
+import { useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {PropsStack} from '../../routes/Stack/models'
 
-
+import React, { useEffect, useState } from 'react'
 
 
 
 export default function  init(){
-    const navigation = useNavigation();
+    const navigation = useNavigation<PropsStack>();
+    const [hasPermission, setHasPermission] = useState(false);
+   
+    const handleContinue = async () => {
+        // Marcar que a tela de introdução já foi exibida
+        await AsyncStorage.setItem('introDisplayed', 'true');
     
-    const navegar =()=>{
+        // Navegar para a próxima tela do seu aplicativo
+        navigation.navigate('Home'); // Substitua 'Home' pelo nome da sua tela principal
+      };
+
+    useEffect(() => {
+        const checkIntro = async () => {
+          // Verificar se a tela de introdução já foi exibida
+          const introStatus = await AsyncStorage.getItem('introDisplayed');
+          if (introStatus) {
+            navigation.navigate('Home'); // Se já foi exibida, vá diretamente para a tela principal
+          }
+        };
+        checkIntro();
+
         
-        navigation.navigate('Home')
-        
-    }
+     
+      }, []
+    );
+    
+    
+
     return(
         <ImageBackground
         style={style.main}
@@ -34,7 +55,7 @@ export default function  init(){
                 </View>
       
                 <TouchableOpacity
-                 onPress={()=>navegar()}
+                 onPress={()=>handleContinue()}
                  style={style.button}>
                      <Text style={style.Text}> vamos começãor</Text>
                      <AntDesign name="rightcircle" size={30} color="#212122" />
