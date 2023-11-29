@@ -3,6 +3,7 @@ import { createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../../screens/home/index'
 import Init from '../../screens/init';
 import {propsNavigationsStack } from './models';
+import Cameras from '../../screens/Editar/index';
 
 const Stack = createNativeStackNavigator<propsNavigationsStack>();
 
@@ -23,6 +24,9 @@ function MyStack() {
             <Stack.Screen 
                 name="Home" 
                 component={Home} />
+            <Stack.Screen 
+                name="Edites" 
+                component={Cameras} />
            
            
     </Stack.Navigator>

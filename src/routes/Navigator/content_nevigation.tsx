@@ -4,7 +4,8 @@ import MyStack from '../Stack';
 
 export default function Navigation() {
   return (
-    <NavigationContainer >
+    <NavigationContainer 
+    >
         <MyStack/>
     </NavigationContainer>
   );
