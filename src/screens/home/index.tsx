@@ -14,21 +14,34 @@ export default function Home() {
     const [plaseImage, setplaseImage] = useState(false)
     const [ultimasEdt, setUltimasEdt] = useState([{}])
     const [actUltimasEdt, SetActUltimasEdt] = useState(false)
+    const [coresVibrantes,setcoresVibrantes] = useState(require('../../assets/screns_fotos/coresVibrantes.jpg'))
     
-   
+   setInterval(()=>{
+        if(plaseImage){
+            setcoresVibrantes(require('../../assets/screns_fotos/coresVibrantes.jpg'))
+            setplaseImage(!plaseImage) 
+        }else{
+            setcoresVibrantes(require('../../assets/screns_fotos/cameraART.jpg'))
+            setplaseImage(!plaseImage)
+        }
+    
+   },100000)
 
-    const ManScresn = require('../../assets/screns_fotos/homem-tiro-medio-usando-oculos-vr.jpg')
-    const GrilScresn = require('../../assets/screns_fotos/mulher-segurando-uma-xicara-de-cafe.jpg')
-    const coresVibrantes = require('../../assets/screns_fotos/jovem-de-pe-na-projecao-de-textura-do-universo.jpg')
+    
      
 
     const explo = (n:{}[]) => {
        
         return (
             <View style={style.explo}>
-                {n.map((data) => {
+                {n.map((data:any) => {
                     return (
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                        onPress={()=>{
+                            console.log(data)
+                            navi.navigate('Edites',{image:data.uri})
+                        }}
+                            >
                             <Image
                                 source={data}
                                 style={{width: 130, height: 170, borderRadius: 4,}} />
@@ -63,52 +76,52 @@ export default function Home() {
 
     return (
         <View style={style.Body}>
-            <ImageBackground
-                source={coresVibrantes}
-                style={style.Header}>
-                <Text style={style.label}>
-                    Veja como você ficaria com cores vibrantes
-                </Text>
-                <TouchableOpacity
-                    onPress={() => { setplaseImage(!plaseImage)
-                        AsyncStorage.clear() }}
-                    style={style.button}>
-                    <Text style={style.text}>experimente agora</Text>
-                    <AntDesign name="right" size={20} color="#fff" />
-                </TouchableOpacity>
-                <View style={style.plase}>
-                    {plaseImage
-                        ? <View style={[style.plaseActiver]}></View>
-                        : <View style={[style.plaseActiver, { marginLeft: '60%' }]}></View>
-                    }
-                </View>
-            </ImageBackground>
-            <View style={style.Main}>
-                <View style={style.contentButtons}>
-                    <BottonCam
-                        onPress={()=>setImage()}
-                        title="Editar Foto" />
-                    <BottonCam
-                        icone="camera"
-                        title="Abrir Camera" />
-                </View>
-                <View style={style.Contest}>
-                    <Text style={[style.text, { color: '#000' }]}> ultimas Edição</Text>
-                    {actUltimasEdt
-                    ?<ScrollView
-                        horizontal={true}
-                        style={style.ultimasEdicao}>
-                        {explo(ultimasEdt)}
-                    </ScrollView>
-                    : 
-                    <View style={{justifyContent:"center",marginTop:40,alignItems:"center"}}>
-                        <Text >Nao a ultima edição</Text>
-                        <AntDesign name='cloud' size={30} color="#181818" />
+            <ScrollView>
+                <ImageBackground
+                    source={coresVibrantes}
+                    style={style.Header}>
+                    <Text style={style.label}>
+                        Veja como você ficaria com cores vibrantes
+                    </Text>
+                    <TouchableOpacity
+                
+                        style={style.button}>
+                        <Text style={style.text}>experimente agora</Text>
+                        <AntDesign name="right" size={20} color="#fff" />
+                    </TouchableOpacity>
+                    <View style={style.plase}>
+                        {plaseImage
+                            ? <View style={[style.plaseActiver]}></View>
+                            : <View style={[style.plaseActiver, { marginLeft: '60%' }]}></View>
+                        }
                     </View>
-                    }
+                </ImageBackground>
+                <View style={style.Main}>
+                    <View style={style.contentButtons}>
+                        <BottonCam
+                            onPress={()=>setImage()}
+                            title="Editar Foto" />
+                        <BottonCam
+                            icone="camera"
+                            title="Abrir Camera" />
+                    </View>
+                    <View style={style.Contest}>
+                        <Text style={[style.text, { color: '#000' }]}> ultimas Edição</Text>
+                        {actUltimasEdt
+                        ?<ScrollView
+                            horizontal={true}
+                            style={style.ultimasEdicao}>
+                            {explo(ultimasEdt)}
+                        </ScrollView>
+                        :
+                        <View style={{justifyContent:"center",marginTop:40,alignItems:"center"}}>
+                            <Text >Nao a ultima edição</Text>
+                            <AntDesign name='cloud' size={30} color="#181818" />
+                        </View>
+                        }
+                    </View>
                 </View>
-
-            </View>
+            </ScrollView>
 
         </View>
     )

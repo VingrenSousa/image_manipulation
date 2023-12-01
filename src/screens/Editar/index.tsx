@@ -1,40 +1,157 @@
 import { View,Text,Image,ScrollView } from "react-native";
-import {style} from './style'
+import {style} from './style/style'
 import { useNavigation,useRoute,} from "@react-navigation/native";
-import { GestureHandlerRootView,Gesture,GestureDetector} from "react-native-gesture-handler"
+import {Gesture,GestureDetector} from "react-native-gesture-handler"
+import Botton from '../../componetes/buttons/buttonsEdit/index'
 
 
+
+
+import Animated,{ useSharedValue,useAnimatedStyle,withTiming,} from "react-native-reanimated";
+ 
 
 export default function Editar(){
-    const onPress =Gesture
-    .LongPress()
-    .onEnd(()=>{console.log('ok')})
+    const navi=  useNavigation()
+    const{params}: Readonly<any | undefined>=useRoute()
+  
    
-   
-     const{params}: Readonly<any | undefined>=useRoute()
+const useValueTransformX = useSharedValue(0)
+const useValueTransformY = useSharedValue(0)
+const useValueScale = useSharedValue(1)
+const useValueRotate = useSharedValue(0)
+
+const X_translate = useSharedValue(0)
+const Y_translate = useSharedValue(0)
+
+const rotate = useSharedValue(0)
+const savedScale = useSharedValue(1);
+
+const reset=()=>{
+    useValueTransformX.value=withTiming(0)
+    useValueTransformY.value=withTiming(0)
+    useValueRotate.value=withTiming(0),
+    useValueScale.value=withTiming(1),
+    savedScale.value=1
+
+}
+
+
+ const animadeStyled = useAnimatedStyle(()=>({
+ transform:[
+        {translateX:useValueTransformX.value,},
+        {translateY:useValueTransformY.value,},
+        {scale:useValueScale.value},
+        {rotate:`${(useValueRotate.value/Math.PI)*180}deg`}
+    ],
+
+
+}))
+
+const onPressPan =Gesture
+.Pan()
+.minPointers(1)
+.onStart(()=>{
+    Y_translate.value=useValueTransformY.value
+    X_translate.value=useValueTransformX.value
+})
+.onUpdate((n)=>{
+    useValueTransformX.value=n.translationX+X_translate.value
+    useValueTransformY.value=n.translationY+Y_translate.value})
+
+const onRotation= Gesture
+.Rotation()
+.onStart(()=>{rotate.value=useValueRotate.value})
+.onUpdate((n)=>{useValueRotate.value=n.rotation+rotate.value})
+
+ const onScala=Gesture
+.Pinch()
+.onUpdate((n)=>{ useValueScale.value =savedScale.value* n.scale})
+.onEnd(() => {savedScale.value = useValueScale.value;});
+
+
+
+const gestos = Gesture.Simultaneous(onScala,onRotation,onPressPan,)
     
-    console.log(params?.image)
+    
     return(
         
             <View style={style.body}>
                <View style={style.header}>
-
+                    <Botton
+                        sizeIc={30}
+                        Title="Volta"
+                        onPress={()=>{navi.goBack()}}
+                    />
+                    <View style={style.headerbottonsSheq}>
+                    <Botton
+                        icone="back"
+                        sizeIc={30}
+                        Title="antes"
+                    />
+                        <Botton
+                         onPress={()=>{reset()}}
+                            icone="select1"
+                            sizeIc={30}
+                            Title="retorna"
+                                    
+                        />
+                    <Botton
+                        icone="save"
+                        sizeIc={30}
+                        Title="Salvar"
+                        
+                    />
+                    </View>
                </View>
                <View style={style.main}>
-                    
-                        <Image
-                        source={{uri:params?.image}}
-                        style={{flex:1}}
-                        />
-                    
+                <GestureDetector gesture={gestos}>
+                    <Animated.View  style={[style.mainImage,animadeStyled]}>
+                            <Image
+                            source={{uri:params?.image}}
+                            style={{flex:1}}
+                            />
+                    </Animated.View>
+                  </GestureDetector>
                </View>
                <View
                 style={style.footer}>
                    <ScrollView
                    horizontal={true}
-                   style={style.footerScroll}
                    >
-                  
+                      <View style={style.footerScroll}>
+                          <Botton
+                              icone="scan1"
+                              sizeIc={35}
+                              Title="Ajsute"
+                          
+                          />
+                            <Botton
+                                icone="filter"
+                                sizeIc={35}
+                                Title="Filter"
+                               
+                            
+                                              />
+                            <Botton
+                                icone="bulb1"
+                                sizeIc={35}
+                                Title="Luz"
+                            
+                            />
+                            <Botton
+                                icone="slack-square"
+                                sizeIc={35}
+                                Title="Cores"
+                            
+                            />
+                            <Botton
+                                icone="antdesign"
+                                sizeIc={35}
+                                Title="IA"
+                            
+                            />
+                     
+                      </View>
                    </ScrollView>
                </View>
             </View>

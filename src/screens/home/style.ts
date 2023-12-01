@@ -83,7 +83,8 @@ export const style= StyleSheet.create({
          elevation: 9
     },
     Main:{
-        flex:1
+        flex:1,
+        marginBottom:50
 
     },
     contentButtons:{
