@@ -1,6 +1,6 @@
 import {Gesture,GestureDetector,GestureHandlerRootView} from "react-native-gesture-handler"
 import { View,Image } from "react-native";
-import {style}from './style/style'
+import {style}from '../screens/Editar/style/style'
 import React from "react";
 
 import Animated ,{ useSharedValue,useAnimatedStyle,withTiming,} from "react-native-reanimated";

@@ -10,6 +10,9 @@ const style= StyleSheet.create({
     },
     label:{
         color:theme.COLORES.branco
+    },
+    imageIcone:{
+        
     }
 })
 export {style}

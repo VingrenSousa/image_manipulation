@@ -8,11 +8,19 @@ import Botton from '../../componetes/buttons/buttonsEdit/index'
 
 
 import Animated,{ useSharedValue,useAnimatedStyle,withTiming,} from "react-native-reanimated";
+
+import { useState } from "react";
+import AjustesModal from "./ajustes";
  
 
 export default function Editar(){
+
     const navi=  useNavigation()
     const{params}: Readonly<any | undefined>=useRoute()
+
+    const[image,setImage]=useState(params?.image)
+    const[modalAjust,setmodalAjust]=useState(false)
+    
   
    
 const useValueTransformX = useSharedValue(0)
@@ -107,9 +115,11 @@ const gestos = Gesture.Simultaneous(onScala,onRotation,onPressPan,)
                 <GestureDetector gesture={gestos}>
                     <Animated.View  style={[style.mainImage,animadeStyled]}>
                             <Image
-                            source={{uri:params?.image}}
                             style={{flex:1}}
+                            source={{uri:image}}
+                            
                             />
+                         
                     </Animated.View>
                   </GestureDetector>
                </View>
@@ -120,6 +130,10 @@ const gestos = Gesture.Simultaneous(onScala,onRotation,onPressPan,)
                    >
                       <View style={style.footerScroll}>
                           <Botton
+                            onPress={()=>{
+                                setmodalAjust(true)
+                           
+                            }}
                               icone="scan1"
                               sizeIc={35}
                               Title="Ajsute"
@@ -154,6 +168,12 @@ const gestos = Gesture.Simultaneous(onScala,onRotation,onPressPan,)
                       </View>
                    </ScrollView>
                </View>
+               <AjustesModal
+                    image={image}
+                    setImage={setImage}
+                    modal={modalAjust}
+                    setModal={setmodalAjust}
+                />
             </View>
        
     )

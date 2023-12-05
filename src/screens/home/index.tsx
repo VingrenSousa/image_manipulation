@@ -39,7 +39,7 @@ export default function Home() {
                         <TouchableOpacity
                         onPress={()=>{
                             console.log(data)
-                            navi.navigate('Edites',{image:data.uri})
+                            navi.navigate('Edites',{image:data.uri, base64:data.base64})
                         }}
                             >
                             <Image
@@ -67,7 +67,11 @@ export default function Home() {
             setUltimasEdt(atual)
             SetActUltimasEdt(true)
             console.log(requires[0].uri)
-            navi.navigate('Edites',{image:requires[0].uri}); 
+            navi.navigate('Edites',
+            {
+                image:requires[0].uri,
+                base64:requires[0].base64
+            }); 
 
         }
         

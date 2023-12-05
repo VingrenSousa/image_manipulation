@@ -8,7 +8,7 @@ const RequireImage=async()=>{
     }
     const {assets ,canceled}= await ImagePicker.launchImageLibraryAsync({
         mediaTypes:ImagePicker.MediaTypeOptions.Images,
-      
+         base64:true,
         aspect:[16,9],  
         quality:1,
         
