@@ -3,23 +3,25 @@ import {style} from './style/style'
 import { useNavigation,useRoute,} from "@react-navigation/native";
 import {Gesture,GestureDetector} from "react-native-gesture-handler"
 import Botton from '../../componetes/buttons/buttonsEdit/index'
-
+import {PropsStack}from '../../routes/Stack/models/index'
 
 
 
 import Animated,{ useSharedValue,useAnimatedStyle,withTiming,} from "react-native-reanimated";
 
-import { useState } from "react";
-import AjustesModal from "./ajustes";
+import { useEffect, useState } from "react";
+import AjustesModal from "../../componetes/ajustes";
  
 
 export default function Editar(){
 
-    const navi=  useNavigation()
+    const navi=  useNavigation<PropsStack>()
+    
     const{params}: Readonly<any | undefined>=useRoute()
-
     const[image,setImage]=useState(params?.image)
-    const[modalAjust,setmodalAjust]=useState(false)
+    useEffect(()=>{
+        setImage(params?.image)
+    },[params])
     
   
    
@@ -117,6 +119,7 @@ const gestos = Gesture.Simultaneous(onScala,onRotation,onPressPan,)
                             <Image
                             style={{flex:1}}
                             source={{uri:image}}
+                            resizeMode="contain"
                             
                             />
                          
@@ -131,7 +134,7 @@ const gestos = Gesture.Simultaneous(onScala,onRotation,onPressPan,)
                       <View style={style.footerScroll}>
                           <Botton
                             onPress={()=>{
-                                setmodalAjust(true)
+                                navi.navigate('Ajustes',{image:image})
                            
                             }}
                               icone="scan1"
@@ -168,12 +171,7 @@ const gestos = Gesture.Simultaneous(onScala,onRotation,onPressPan,)
                       </View>
                    </ScrollView>
                </View>
-               <AjustesModal
-                    image={image}
-                    setImage={setImage}
-                    modal={modalAjust}
-                    setModal={setmodalAjust}
-                />
+             
             </View>
        
     )

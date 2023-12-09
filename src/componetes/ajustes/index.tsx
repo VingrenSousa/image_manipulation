@@ -1,27 +1,31 @@
-import { Modal } from "react-native";
-import React, { useState } from "react";
+
+import React, { useState,useEffect } from "react";
 import { View, Image, ScrollView } from "react-native";
-import { style } from '../style/style'
+import { style } from '../../screens/Editar/style/style'
 
-import Botton from '../../../componetes/buttons/buttonsEdit/index'
-import { manipulateAsync, SaveFormat, FlipType, ActionRotate } from 'expo-image-manipulator';
+import Botton from '../buttons/buttonsEdit/index'
+import { manipulateAsync, SaveFormat, FlipType } from 'expo-image-manipulator';
+
+import { useNavigation,useRoute } from "@react-navigation/native";
+import{PropsStack} from '../../routes/Stack/models/index'
 
 
-interface propsImage {
-    image: string
-    setImage: React.Dispatch<React.SetStateAction<string>>
-    modal: boolean
-    setModal: React.Dispatch<React.SetStateAction<boolean>>
-}
 
-export default function AjustesModal({ image, setImage, modal, setModal }: propsImage) {
-    const [ImageEdit, setImageEdit] = useState(image)
+
+export default function AjustesModal() {
+    const navi= useNavigation<PropsStack>()
+    const{params}: Readonly<any | undefined>=useRoute()
+
+    const [ImageEdit, setImageEdit] = useState(params?.image)
+    useEffect(()=>{
+        setImageEdit(params?.image)
+    },[params])
+
    
-    const _cancelImage = () => {setModal(false)}
+    const _cancelImage = () => {navi.goBack()}
     const _salveImage = () => {
-        setImage(ImageEdit)
-        setModal(false)
-    }
+        navi.navigate('Edites',{image:ImageEdit})}
+        
     const flip = async (direcao: string) => {
 
         const direcaos = (): any => {
@@ -64,12 +68,25 @@ export default function AjustesModal({ image, setImage, modal, setModal }: props
         setImageEdit(manipResult.uri);
 
     }
+    const recortaA=()=>{
+        
+        
+            navi.navigate('Recorta',{state:ImageEdit})
+            // ImageEdit,
+            // [{
+            //    crop:{
+            //     height: 100, 
+            //     originX: 100, 
+            //     originY: 100, 
+            //     width: 100
+            //    } 
+            //  }],
+            // { compress: 1, format: SaveFormat.PNG }
+       
+    }
 
     return (
-        <Modal
-            visible={modal}
-            style={{ flex: 1 }}
-        >
+     
             <View style={style.body}>
                 <View style={style.header}>
                     <Botton
@@ -94,6 +111,8 @@ export default function AjustesModal({ image, setImage, modal, setModal }: props
                         <Image
                             style={{ flex: 1 }}
                             source={{ uri: ImageEdit }}
+                            resizeMode="contain"
+                            
 
                         />
 
@@ -109,35 +128,31 @@ export default function AjustesModal({ image, setImage, modal, setModal }: props
                                 onPress={() => flip('H')}
                                 sizeIc={35}
                                 Title="Honrizontal"
-                                ImageIcone={require('../../../assets/icon/flipHorizontal.png')}
-
+                                ImageIcone={require('../../assets/icon/flipHorizontal.png')}
                             />
                             <Botton
                                 onPress={() => flip('V')}
                                 sizeIc={35}
                                 Title="Vertical"
-                                ImageIcone={require('../../../assets/icon/flipVertical.png')}
-
+                                ImageIcone={require('../../assets/icon/flipVertical.png')}
                             />
                             <Botton
                                 onPress={() => { rotete('E') }}
                                 sizeIc={35}
                                 Title="Esquerda"
-                                ImageIcone={require('../../../assets/icon/girarEsquerda.png')}
-
+                                ImageIcone={require('../../assets/icon/girarEsquerda.png')}
                             />
                             <Botton
                                 onPress={() => { rotete('D') }}
                                 sizeIc={35}
                                 Title="Direita"
-                                ImageIcone={require('../../../assets/icon/girarDireita.png')}
-
+                                ImageIcone={require('../../assets/icon/girarDireita.png')}
                             />
-
                             <Botton
+                             onPress={() =>recortaA()}
                                 sizeIc={35}
                                 Title="recortar"
-                                ImageIcone={require('../../../assets/icon/recortar.png')}
+                                ImageIcone={require('../../assets/icon/recortar.png')}
 
                             />
 
@@ -145,6 +160,6 @@ export default function AjustesModal({ image, setImage, modal, setModal }: props
                     </ScrollView>
                 </View>
             </View>
-        </Modal>
+       
     )
 }

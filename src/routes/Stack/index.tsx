@@ -4,6 +4,8 @@ import Home from '../../screens/home/index'
 import Init from '../../screens/init';
 import {propsNavigationsStack } from './models';
 import Cameras from '../../screens/Editar/index';
+import Recorta from '../../componetes/ajustes/recorta/recorta';
+import AjustesModal from '../../componetes/ajustes';
 
 const Stack = createNativeStackNavigator<propsNavigationsStack>();
 
@@ -19,14 +21,26 @@ function MyStack() {
             <Stack.Screen
                 name="Init"
                 component={Init}
-                options={{ headerShown: false }}/>
+                options={{ headerShown: false }}
+            />
             
             <Stack.Screen 
                 name="Home" 
-                component={Home} />
+                component={Home} 
+            />
             <Stack.Screen 
                 name="Edites" 
-                component={Cameras} />
+                component={Cameras}
+             />
+            <Stack.Screen 
+                name="Recorta" 
+                component={Recorta} 
+            />
+            <Stack.Screen 
+                name="Ajustes" 
+                component={AjustesModal} 
+            />
+           
            
            
     </Stack.Navigator>
