@@ -68,22 +68,22 @@ export default function AjustesModal() {
         setImageEdit(manipResult.uri);
 
     }
-    const recortaA=()=>{
+    // const recortaA=()=>{
         
         
-            navi.navigate('Recorta',{state:ImageEdit})
-            // ImageEdit,
-            // [{
-            //    crop:{
-            //     height: 100, 
-            //     originX: 100, 
-            //     originY: 100, 
-            //     width: 100
-            //    } 
-            //  }],
-            // { compress: 1, format: SaveFormat.PNG }
+    //         navi.navigate('Recorta',{state:ImageEdit})
+    //         // ImageEdit,
+    //         // [{
+    //         //    crop:{
+    //         //     height: 100, 
+    //         //     originX: 100, 
+    //         //     originY: 100, 
+    //         //     width: 100
+    //         //    } 
+    //         //  }],
+    //         // { compress: 1, format: SaveFormat.PNG }
        
-    }
+    // }
 
     return (
      
@@ -148,13 +148,13 @@ export default function AjustesModal() {
                                 Title="Direita"
                                 ImageIcone={require('../../assets/icon/girarDireita.png')}
                             />
-                            <Botton
+                            {/* <Botton
                              onPress={() =>recortaA()}
                                 sizeIc={35}
                                 Title="recortar"
                                 ImageIcone={require('../../assets/icon/recortar.png')}
 
-                            />
+                            /> */}
 
                         </View>
                     </ScrollView>

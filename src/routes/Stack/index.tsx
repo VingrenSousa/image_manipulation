@@ -4,7 +4,7 @@ import Home from '../../screens/home/index'
 import Init from '../../screens/init';
 import {propsNavigationsStack } from './models';
 import Cameras from '../../screens/Editar/index';
-import Recorta from '../../componetes/ajustes/recorta/recorta';
+import Recorta from '../../nulls/recorta';
 import AjustesModal from '../../componetes/ajustes';
 
 const Stack = createNativeStackNavigator<propsNavigationsStack>();

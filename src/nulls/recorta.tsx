@@ -1,17 +1,17 @@
 
 import React, { useState } from "react";
-import { View, Image, ScrollView,ImageBackground } from "react-native";
-import { style } from './style'
+import { View,  ScrollView,ImageBackground } from "react-native";
+import { style } from '../componetes/ajustes/recorta/style'
 
 import { useNavigation,useRoute } from "@react-navigation/native";
-import Botton from '../../buttons/buttonsEdit/index'
-import { manipulateAsync, SaveFormat, FlipType, ActionRotate } from 'expo-image-manipulator';
+import Botton from '../componetes/buttons/buttonsEdit/index'
+import { manipulateAsync, SaveFormat, FlipType,  } from 'expo-image-manipulator';
 import { AntDesign } from '@expo/vector-icons'; 
 
-import{PropsStack} from '../../../routes/Stack/models/index'
+import{PropsStack} from '../routes/Stack/models/index'
 
 import {Gesture,GestureDetector} from "react-native-gesture-handler"
-import Animated,{ useSharedValue,useAnimatedStyle,withTiming,} from "react-native-reanimated";
+import Animated,{ useSharedValue,useAnimatedStyle} from "react-native-reanimated";
 
 
 export default function Recorta(){
@@ -41,7 +41,7 @@ export default function Recorta(){
             minWidth:150,
             width:useWidth.value,
             height:useHeight.value,
-
+            
             transform:[
                 {translateX:useValueTransformX.value,},
                 {translateY:useValueTransformY.value,},
@@ -86,20 +86,26 @@ export default function Recorta(){
     const gestoTela =Gesture.Simultaneous(onScala,onPressPan)
 
     // recort 
-    const recortar =async()=>{
-        const manipResult = await manipulateAsync(
+    const _recortar =async()=>{
+        let h=useHeight.value
+        let w=useWidth.value
+        let X=x.value
+        let Y=y.value
+        console.log('hY:'+h+'   hX:'+w+'   x:'+X+'  Y:'+Y)
+        const _manipResult = await manipulateAsync(
            edit,
             [{
-               crop:{
-                height: useHeight.value, 
-                originX: x.value, 
-                originY: y.value, 
-                width: useHeight.value
+                crop:{
+                    originX:10,
+                    originY: 45,
+                    width: 140,
+                    height: 150,
                } 
              }],
             { compress: 1, format: SaveFormat.PNG }
             )
-            setEdit(manipResult)
+            setEdit(_manipResult)
+            console.log(edit)
             navi.navigate('Ajustes',{image:edit}) 
         }
 
@@ -117,18 +123,13 @@ export default function Recorta(){
                     icone="save"
                     sizeIc={30}
                     Title="Salvar"
-                    onPress={() => {
-                        recortar()
-                        
-                    }}
-
-                />
+                    onPress={async() => {await _recortar()}}/>
             </View>
         </View>
         <View style={style.main}>
             <View style={style.mainImage}>
                 <ImageBackground
-                    style={{ flex: 1 }}
+                    style={{ flex: 1, overflow:"hidden"}}
                     source={{ uri: edit }} 
                     resizeMode="contain"
                 >
